@@ -3,7 +3,7 @@ module.exports =  {
     ////////////////////////////////////
     // ElasticSearch Backend Settings
     ////////////////////////////////////
-    "es_host": "es0.laas.io",  // The host of Elastic Search
+    "es_host": "localhost",  // The host of Elastic Search
     "es_port": 9200,  // The port of Elastic Search
     "es_using_ssl": false,  // If the ES is using SSL(https)?
     "es_username":  "",  // The basic authentication user of ES server, leave it blank if no basic auth applied
@@ -46,6 +46,11 @@ module.exports =  {
     // Please change the following secret randomly for security.
     "cookie_secret": "REPLACE_WITH_A_RANDOM_STRING_PLEASE",
 
+    "account":{
+        "user_id1":"org1",
+        "user_id2":"org2",
+        "demo1":"org1"
+    },
 
     ////////////////////////////////////
     // Kibana3 Authentication Settings
@@ -73,7 +78,7 @@ module.exports =  {
     // The following config is different from the previous basic auth settings.
     // It will be applied on the client who access kibana3.
     // Enable? true or false
-    "enable_basic_auth": true,
+    "enable_basic_auth": false,
         // Multiple user/passwd supported
         // The User&Passwd list for basic auth
         "basic_auth_users": [

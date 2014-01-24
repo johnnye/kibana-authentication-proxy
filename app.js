@@ -32,8 +32,7 @@ require('./lib/es-proxy').configureESProxy(app, config.es_host, config.es_port,
 // Serve config.js for kibana3
 // We should use special config.js for the frontend and point the ES to __es/
 app.get('/config.js', kibana3configjs);
-
-//TODO: Serve up the Dashboard code
+app.get('/app/dashboards/*.json', dynamicDashboard);
 
 // Serve all kibana3 frontend files
 app.use('/', express.static(__dirname + '/kibana/src'));
@@ -54,9 +53,18 @@ function run() {
   console.log('Server listening on ' + config.listen_port);
 }
 
-function dyamicDashboard(req, res){
+function dynamicDashboard(req, res){
+    var user = req.session.user;
+    var client = config.account[user];
     
+    req.url = req.url.split('?')[0];
+    var dashboard = JSON.parse(fs.readFileSync(__dirname+'/kibana/src/'+req.url,'utf8'));
+    dashboard.index.pattern = '['+client+'-logstash-]YYYY.MM.DD';
+    res.setHeader('Content-Type', 'application/json');
+    var d = JSON.stringify(dashboard);
+    res.end(d);
 }
+
 function getCurrentUser(req){
     var raw_index = config.kibana_es_index;
     var user_type = config.which_auth_type_for_kibana_index;
@@ -79,6 +87,7 @@ function getCurrentUser(req){
 
 function kibana3configjs(req, res) {
   req.session.user = getCurrentUser(req);
+  req.session.client = config.account[req.session.user];
   console.log(req.session);
 
   function getKibanaIndex() {
