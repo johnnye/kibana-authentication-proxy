@@ -29,12 +29,15 @@ require('./lib/cas-auth.js').configureCas(express, app, config);
 require('./lib/es-proxy').configureESProxy(app, config.es_host, config.es_port,
           config.es_username, config.es_password);
 
-// Serve all kibana3 frontend files
-app.use('/', express.static(__dirname + '/kibana/src'));
-
 // Serve config.js for kibana3
 // We should use special config.js for the frontend and point the ES to __es/
 app.get('/config.js', kibana3configjs);
+
+//TODO: Serve up the Dashboard code
+
+// Serve all kibana3 frontend files
+app.use('/', express.static(__dirname + '/kibana/src'));
+
 
 run();
 
@@ -51,10 +54,10 @@ function run() {
   console.log('Server listening on ' + config.listen_port);
 }
 
-function kibana3configjs(req, res) {
- 
-
-  function getKibanaIndex() {
+function dyamicDashboard(req, res){
+    
+}
+function getCurrentUser(req){
     var raw_index = config.kibana_es_index;
     var user_type = config.which_auth_type_for_kibana_index;
     var user;
@@ -68,10 +71,23 @@ function kibana3configjs(req, res) {
       } else {
         user = 'unknown';
       }
-      return raw_index.replace(/%user%/gi, user);
+      return user
     } else {
-      return raw_index;
+      return;
     }
+}
+
+function kibana3configjs(req, res) {
+  req.session.user = getCurrentUser(req);
+  console.log(req.session);
+
+  function getKibanaIndex() {
+      var raw_index = config.kibana_es_index;
+      if(req.session.user){
+        return raw_index.replace(/%user%/gi, req.session.user);
+      }else{
+        return raw_index;
+      }
   }
 
   res.setHeader('Content-Type', 'application/javascript');
