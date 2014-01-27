@@ -9,7 +9,14 @@ module.exports =  {
     "es_username":  "",  // The basic authentication user of ES server, leave it blank if no basic auth applied
     "es_password":  "",  // The password of basic authentication of ES server, leave it blank if no basic auth applied.
 
-
+    "logging":{"logstash": {
+        "redis": true, 
+        "host": 'localhost', 
+        "port": 6379, 
+        "key": 'kibana', 
+        "list": true, 
+        "source_host": 'example.com' 
+        }},
     ////////////////////////////////////
     // Proxy server configurations
     ////////////////////////////////////
@@ -36,8 +43,8 @@ module.exports =  {
     // Config "kibana_es_index": "kibana-int-for-%user%", "which_auth_type_for_kibana_index": "basic"
     // will use kibana index settings like "kibana-int-for-demo1", "kibana-int-for-demo2" for user demo1 and demo2.
     // in this case, if you enabled both Google Oauth2 and BasicAuth, and the username of BasicAuth is the boss.
-    "kibana_es_index": "kibana-int", // "kibana-int-%user%"
-    "which_auth_type_for_kibana_index": "cas", // google, cas or basic
+    "kibana_es_index": "kibana-int-%user%", // "kibana-int-%user%"
+    "which_auth_type_for_kibana_index": "basic", // google, cas or basic
 
     ////////////////////////////////////
     // Security Configurations
@@ -46,6 +53,11 @@ module.exports =  {
     // Please change the following secret randomly for security.
     "cookie_secret": "REPLACE_WITH_A_RANDOM_STRING_PLEASE",
 
+    "account":{
+        "user_id1":"org1",
+        "user_id2":"org2",
+        "demo1":"org1"
+    },
 
     ////////////////////////////////////
     // Kibana3 Authentication Settings
