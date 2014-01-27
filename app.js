@@ -73,7 +73,7 @@ function getCurrentUser(req){
     var user;
     if (raw_index.indexOf('%user%') > -1) {
       if (user_type === 'google') {
-        user = req.googleOauth.email;
+        user = req.googleOauth.emails[0].value;
       } else if (user_type === 'basic') {
         user = req.user;
       } else if (user_type === 'cas') {
@@ -95,7 +95,7 @@ function kibana3configjs(req, res) {
   function getKibanaIndex() {
       var raw_index = config.kibana_es_index;
       if(req.session.user){
-        return raw_index.replace(/%user%/gi, req.session.user);
+        return raw_index.replace(/%user%/gi, req.session.client);
       }else{
         return raw_index;
       }
