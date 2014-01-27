@@ -78,7 +78,7 @@ function getCurrentUser(req){
     var user;
     if (raw_index.indexOf('%user%') > -1) {
       if (user_type === 'google') {
-        user = req.googleOauth.id;
+        user = req.googleOauth.email;
       } else if (user_type === 'basic') {
         user = req.user;
       } else if (user_type === 'cas') {
