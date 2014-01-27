@@ -40,11 +40,6 @@ app.get('/app/dashboards/*.json', dynamicDashboard);
 // Serve all kibana3 frontend files
 app.use('/', express.static(__dirname + '/kibana/src'));
 
-
-// Serve all kibana3 frontend files
-app.use('/', express.static(__dirname + '/kibana/src'));
-
-
 run();
 
 function run() {
