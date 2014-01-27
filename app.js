@@ -15,10 +15,13 @@ var fs = require('fs');
 var config = require('./config');
 var app = express();
 
-console.log('Server starting...');
+var logger = require('bucker').createLogger(config.logging);
 
+console.log('Server starting...');
+logger.info("server starting...");
 app.use(express.cookieParser());
 app.use(express.session({ secret: config.cookie_secret }));
+app.use(logger.middleware());
 
 // Authentication
 require('./lib/basic-auth').configureBasic(express, app, config);

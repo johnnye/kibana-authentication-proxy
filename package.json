@@ -25,7 +25,8 @@
     "passport": "*",
     "passport-google-oauth": "*",
     "connect-restreamer": "*",
-    "cas": "*"
+    "cas": "*",
+    "bucker":"1.0.*"
   },
   "devDependencies": {
   },
